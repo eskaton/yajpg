@@ -1,0 +1,216 @@
+/* THIS FILE IS MACHINE GENERATED - DO NOT EDIT! */
+package $PACKAGE$;
+
+import java.io.IOException;
+import java.util.Stack;
+
+import ch.eskaton.yajpg.api.*;
+import $TOKEN_IMPORT$;
+$IMPORTS$;
+
+public class $CLASS$ implements Parser {
+
+	protected static final int E = 0; /* Error  */
+	protected static final int S = 1; /* Shift  */
+	protected static final int R = 2; /* Reduce */
+	protected static final int G = 3; /* Goto   */
+	protected static final int A = 4; /* Accept */
+
+    /*
+     * Must correspond to the order of columns in actionTable
+     */
+    $TERMINALS$
+	
+	/*
+     * Must correspond to the order of columns in gotoTable
+     */
+	$NON_TERMINALS$
+	
+    /*
+     * The terminal names are stored in the parser state for debugging
+     * purposes
+     */
+	$TERMINALS_NAMES$
+	
+    /* Table with parser actions for each state */
+	$ACTION_TABLE$
+	
+	/* Table with parser goto-actions for each state */
+	$GOTO_TABLE$
+	
+    /*
+     * Grammar rules. Actually, only the leftmost column as well as
+     * the count of RHS symbols is needed.
+     */
+	$RULE_TABLE$
+	
+	private Lexer lexer;
+	
+	private Stack<ParserState> state;
+	
+	private boolean debugging = false;
+		
+	public $CLASS$( Lexer lex ) {
+		lexer = lex;
+		state = new Stack<ParserState>();
+	}
+
+	public Node parse() throws ParseException, IOException {
+		Token tok;
+		ParserState currentState;
+		int actionColumn;
+		int newState;
+		int tokCount;
+		int gotoInd;
+		ParserState ps[];
+		String nonTerminal;
+		Node node = null;
+		
+		/* Initial state */
+		state.push(new ParserState(0, null, "S"));
+		
+		tok = lexer.nextToken();
+		
+		accept:
+		while (true) {
+			currentState = (ParserState)state.peek();
+			
+			/* Next token */
+			actionColumn = getActionColumn(tok.getType());
+			
+			switch (actionTable[currentState.getState()][actionColumn] & 0x07) {
+			
+				/* Shift the current token to the stack and read the next one*/
+				case S:
+					newState = actionTable[currentState.getState()][actionColumn]>>3;
+					state.push( new ParserState( newState, tok, actionNames[actionColumn]) );
+					tok = lexer.nextToken();
+					break;
+					
+				/* Reduce a rule */
+				case R:
+				    /* Take as many symbols from the stack as there are RHS symbols in the rule */
+					tokCount = ruleTable[actionTable[currentState.getState()][actionColumn]>>3].length - 1;
+					ps = new ParserState[tokCount];
+					
+					for (int i = tokCount-1; i >= 0; i--) {
+						ps[i] = (ParserState)state.pop();
+					}
+					
+					/* Create a node in the syntax tree */
+					$RULE_SWITCH$
+					
+					gotoInd = ((ParserState)state.peek()).getState();
+					
+					/* Get the name of the new non-terminal */
+					nonTerminal = ruleTable[actionTable[currentState.getState()][actionColumn]>>3][0];
+					
+					 /* Put the non-terminal on the stack and change the state based on the gotoTable */
+					if ((gotoTable[gotoInd][getGotoColumn(nonTerminal)] & 0x07) == G) {
+						newState = gotoTable[gotoInd][getGotoColumn(nonTerminal)]>>3;
+						state.push(new ParserState(newState, node, nonTerminal));
+					} else {
+						throw new ParseException(
+								"Missing state in goto table for non terminal '" + nonTerminal
+										+ "' in state " + gotoInd
+										+ ". The non terminal was reduced in state " + currentState.getState()
+										+ ".", tok.getPosition());
+					}
+					
+					break;
+					
+				case A:
+					break accept;
+					
+				case E:
+					throw new ParseException("Invalid state (" + currentState.getState()
+							+ ") reached in action table after reading token "
+							+ actionNames[actionColumn] + ".", tok.getPosition());
+				default:
+					throw new ParseException("Invalid action in action table.", tok.getPosition());
+			}
+			
+			if (debugging) {
+				printStateStack();
+			}
+
+		}
+		
+		if (debugging) {
+			printStateStack();
+		}
+		
+		return (Node)(((ParserState)(state.elementAt(1))).getSymbol());
+	}
+	
+	/**
+	 * Determine an actionTable column based on a token type.
+	 *
+	 * @param tokenType
+	 *            A token type
+	 * @return column index
+	 * @throws ParseException
+	 */
+	protected int getActionColumn(int tokenType) throws ParseException {
+		for (int i = 0; i < actions.length; i++) {
+			if (actions[i].ordinal() == tokenType) {
+				return i;
+			}
+		}
+
+		throw new ParseException("Can't find token for type " + tokenType + " in actions");
+	}
+	
+   /**
+	 * Determine a gotoTable column based on a non-terminal.
+	 *
+	 * @param nonTerminal
+	 *            A non-terminal
+	 * @return column index
+	 * @throws ParseException
+	 */
+	protected int getGotoColumn(String nonTerminal) throws ParseException {
+		for (int i = 0; i < nonTerminals.length; i++) {
+			if (nonTerminals[i].equals(nonTerminal)) {
+				return i;
+			}
+		}
+
+		throw new ParseException("Can't find non terminal " + nonTerminal + " in nonTerminals");
+	}
+	
+	public void setDebugging(boolean debugging) {
+		this.debugging = debugging;
+	}
+	
+	public boolean isDebugging() {
+		return debugging;
+	}
+	
+	/**
+	 * Prints the state stack for debugging purposes.
+	 */
+	protected void printStateStack() {
+		ParserState s;
+		Object o;
+
+		for (int i = 0; i < state.size(); i++) {
+			s = (ParserState) state.elementAt(i);
+			o = s.getSymbol();
+			if (o != null) {
+				if (o instanceof Token) {
+					Token t = (Token) s.getSymbol();
+					System.out.println(s.getState() + ": " + t.getBuffer() + " / " + s.getType());
+				} else {
+					Node n = (Node) s.getSymbol();
+					System.out.println(s.getState() + ": sym / " + s.getType());
+				}
+			} else {
+				System.out.println(s.getState() + ": " + s.getType());
+			}
+		}
+
+		System.out.println("----------");
+	}
+
+}
