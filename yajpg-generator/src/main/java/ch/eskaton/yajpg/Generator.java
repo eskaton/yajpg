@@ -154,7 +154,7 @@ public class Generator {
     }
 
     /**
-     * Hauptmethode zum Erzeugen des Parsers.
+     * Runs the generator.
      * 
      * @param sourcePath
      *           Path for generated code
