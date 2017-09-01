@@ -27,41 +27,11 @@
 package ch.eskaton.yajpg.api;
 
 /**
- * State of parser to be stored on internal stack.
+ * Interface to be implemented by visitors of the syntax tree that throw an
+ * exception.
  */
-public class ParserState {
+public interface ExceptionNodeVisitor {
 
-    /**
-     * Current state.
-     */
-    protected int state;
-
-    /**
-     * Node or token generated in this state.
-     */
-    protected Object symbol;
-
-    /**
-     * Name of terminal or non-terminal which lead to this state.
-     */
-    protected String type;
-
-    public ParserState(int state, Object symbol, String type) {
-        this.state = state;
-        this.symbol = symbol;
-        this.type = type;
-    }
-
-    public int getState() {
-        return state;
-    }
-
-    public Object getSymbol() {
-        return symbol;
-    }
-
-    public String getType() {
-        return type;
-    }
+    public void visitWithException(Node node) throws Exception;
 
 }

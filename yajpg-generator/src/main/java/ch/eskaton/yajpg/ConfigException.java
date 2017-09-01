@@ -24,22 +24,20 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg;
 
 /**
  * An exception which is thrown in case of a configuration error.
  */
+@SuppressWarnings("serial")
 public class ConfigException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    public ConfigException(String message) {
+        super(message);
+    }
 
-	public ConfigException(String message) {
-		super(message);
-	}
-
-	public ConfigException(String message, Exception ex) {
-		super(message, ex);
-	}
+    public ConfigException(String message, Exception ex) {
+        super(message, ex);
+    }
 
 }

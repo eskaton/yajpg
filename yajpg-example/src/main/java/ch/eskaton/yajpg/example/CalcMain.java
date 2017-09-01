@@ -24,44 +24,50 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package ch.eskaton.yajpg.api;
+package ch.eskaton.yajpg.example;
 
-/**
- * State of parser to be stored on internal stack.
- */
-public class ParserState {
+import java.io.IOException;
 
-    /**
-     * Current state.
-     */
-    protected int state;
+import ch.eskaton.yajpg.api.Node;
+import ch.eskaton.yajpg.api.ParseException;
+import ch.eskaton.yajpg.example.parser.CalcLexer;
+import ch.eskaton.yajpg.example.parser.CalcNode;
+import ch.eskaton.yajpg.example.parser.CalcParser;
+import ch.eskaton.yajpg.example.parser.CalcToken;
+import ch.eskaton.yajpg.example.parser.CalcValue;
 
-    /**
-     * Node or token generated in this state.
-     */
-    protected Object symbol;
+public class CalcMain {
 
-    /**
-     * Name of terminal or non-terminal which lead to this state.
-     */
-    protected String type;
+    public static void main(String[] args) throws ParseException, IOException {
+        if (args.length != 1) {
+            System.err.println("Usage: CalcMain <expression>");
+            System.exit(1);
+        } 
 
-    public ParserState(int state, Object symbol, String type) {
-        this.state = state;
-        this.symbol = symbol;
-        this.type = type;
+        Node root = new CalcParser(new CalcLexer(args[0])).parse();
+        System.out.println(new Eval().eval(root));
     }
 
-    public int getState() {
-        return state;
-    }
+    private static class Eval {
+        double eval(Node n) {
+            if (n instanceof CalcValue) {
+                return ((CalcValue) n).getValue();
+            } else if (n instanceof CalcNode) {
+                switch (((CalcNode) n).getToken()) {
+                    case PLUS:
+                        return eval(n.getLNode()) + eval(n.getRNode());
+                    case MINUS:
+                        return eval(n.getLNode()) - eval(n.getRNode());
+                    case TIMES:
+                        return eval(n.getLNode()) * eval(n.getRNode());
+                    case DIV:
+                        return eval(n.getLNode()) / eval(n.getRNode());
+                }
+            }
 
-    public Object getSymbol() {
-        return symbol;
-    }
+            return 1;
+        }
 
-    public String getType() {
-        return type;
     }
 
 }

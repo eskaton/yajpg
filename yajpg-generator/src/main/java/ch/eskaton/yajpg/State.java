@@ -24,7 +24,6 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg;
 
 import java.util.ArrayList;
@@ -42,81 +41,81 @@ import java.util.Map.Entry;
  */
 public class State {
 
-	/** Valid rules in the active state */
-	private Set<RulePosition> rules;
+    /** Valid rules in the active state */
+    private Set<Item> items;
 
-	private int id;
+    private int id;
 
-	public State(int id) {
-		this.id = id;
-		rules = new HashSet<RulePosition>();
-	}
+    public State(int id) {
+        this.id = id;
+        items = new HashSet<Item>();
+    }
 
-	public void addRulePosition(RulePosition r) {
-		rules.add(r);
-	}
+    public void addItem(Item item) {
+        items.add(item);
+    }
 
-	public Set<RulePosition> getRules() {
-		return rules;
-	}
+    public Set<Item> getItems() {
+        return items;
+    }
 
-	/**
-	 * Creates a group for all rules which have the same next input symbol and
-	 * returns a list of this group.
-	 * 
-	 * @return A list of rule groups
-	 */
-	public List<RulePositionGroup> getRuleGroups() {
-		List<RulePositionGroup> groupList = new ArrayList<RulePositionGroup>();
-		Map<String, Set<RulePosition>> groups = new HashMap<String, Set<RulePosition>>();
-		String end = "__END__";
+    /**
+     * Groups items with the same next symbol to an item set.
+     * 
+     * @return A list of item sets
+     */
+    public List<ItemSet> getItemSets() {
+        List<ItemSet> itemSetList = new ArrayList<ItemSet>();
+        Map<String, Set<Item>> itemSets = new HashMap<String, Set<Item>>();
+        String end = "__END__";
 
-		for (RulePosition rp : rules) {
-			Symbol sym = rp.getCurrentSymbol();
-			String symName;
+        for (Item item : items) {
+            Symbol sym = item.getCurrentSymbol();
+            String symName;
 
-			if (sym == null) {
-				symName = end;
-			} else {
-				symName = sym.getName();
-			}
+            if (sym == null) {
+                symName = end;
+            } else {
+                symName = sym.getName();
+            }
 
-			Set<RulePosition> srp = groups.get(symName);
+            Set<Item> srp = itemSets.get(symName);
 
-			if (srp == null) {
-				srp = new HashSet<RulePosition>();
-				groups.put(symName, srp);
-			}
+            if (srp == null) {
+                srp = new HashSet<Item>();
+                itemSets.put(symName, srp);
+            }
 
-			srp.add(rp);
-		}
+            srp.add(item);
+        }
 
-		for (Entry<String, Set<RulePosition>> e : groups.entrySet()) {
-			groupList.add(new RulePositionGroup(e.getValue()));
-		}
+        for (Entry<String, Set<Item>> e : itemSets.entrySet()) {
+            itemSetList.add(new ItemSet(e.getValue()));
+        }
 
-		return groupList;
-	}
+        return itemSetList;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String toString() {
-		StringBuilder sb = new StringBuilder(500);
-		List<RulePosition> list;
+    public String toString() {
+        StringBuilder sb = new StringBuilder(500);
+        List<Item> list;
 
-		sb.append("State " + id + "\n");
-		sb.append("------------\n");
+        sb.append("State " + id + "\n");
+        sb.append("------------\n");
 
-		list = new LinkedList<RulePosition>(rules);
-		Collections.sort(list);
+        list = new LinkedList<Item>(items);
+        Collections.sort(list);
 
-		for (RulePosition rp : list) {
-			sb.append(rp + "\n");
-		}
+        for (Item item : list) {
+            sb.append(item + "\n");
+        }
 
-		sb.append("\n");
-		return sb.toString();
-	}
+        sb.append("\n");
+        return sb.toString();
+    }
+
 }

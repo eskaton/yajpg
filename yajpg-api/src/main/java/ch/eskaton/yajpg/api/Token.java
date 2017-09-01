@@ -24,52 +24,51 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg.api;
 
 public class Token {
 
-	private String buffer;
+    private String buffer;
 
-	private int position;
+    private int position;
 
-	private int id;
+    private int id;
 
-	public Token(int id, String buffer, int position) {
-		this.id = id;
-		this.buffer = buffer;
-		this.position = position;
-	}
+    public Token(int id, String buffer, int position) {
+        this.id = id;
+        this.buffer = buffer;
+        this.position = position;
+    }
 
-	/**
-	 * Returns the value of the token.
-	 * 
-	 * @return The token's value
-	 */
-	public String getBuffer() {
-		return buffer;
-	}
+    /**
+     * Returns the value of the token.
+     * 
+     * @return The token's value
+     */
+    public String getBuffer() {
+        return buffer;
+    }
 
-	/**
-	 * Returns the type of the token.
-	 * 
-	 * @return The token's type
-	 */
-	public int getType() {
-		return id;
-	}
+    /**
+     * Returns the type of the token.
+     * 
+     * @return The token's type
+     */
+    public int getType() {
+        return id;
+    }
 
-	/**
-	 * Returns the position where the token begins.
-	 * 
-	 * @return Start position of the token
-	 */
-	public int getPosition() {
-		return position;
-	}
+    /**
+     * Returns the position where the token begins.
+     * 
+     * @return Start position of the token
+     */
+    public int getPosition() {
+        return position;
+    }
 
-	public String toString() {
-		return "Token[type=" + id + ",buffer=" + buffer + ",pos="
-				+ String.valueOf(position) + "]";
-	}
+    public String toString() {
+        return "[Type: " + id + " Buffer: \"" + buffer + "\"]";
+    }
+
 }

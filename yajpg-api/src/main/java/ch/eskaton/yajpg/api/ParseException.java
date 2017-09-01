@@ -24,44 +24,46 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg.api;
 
+/**
+ * Exception thrown by the lexer or parser.
+ */
+@SuppressWarnings("serial")
 public class ParseException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    /* Error position */
+    private int position;
 
-	/* Error position */
-	private int position;
+    public ParseException() {
+        super();
+    }
 
-	public ParseException() {
-		super();
-	}
+    public ParseException(int position) {
+        super();
+        this.position = position;
+    }
 
-	public ParseException(int position) {
-		super();
-		this.position = position;
-	}
+    public ParseException(String message) {
+        super(message);
+    }
 
-	public ParseException(String message) {
-		super(message);
-	}
+    public ParseException(String message, int position) {
+        super(message);
+        this.position = position;
+    }
 
-	public ParseException(String message, int position) {
-		super(message);
-		this.position = position;
-	}
+    public ParseException(Exception e) {
+        super(e);
+    }
 
-	public ParseException(Exception e) {
-		super(e);
-	}
+    public ParseException(Exception e, int position) {
+        super(e);
+        this.position = position;
+    }
 
-	public ParseException(Exception e, int position) {
-		super(e);
-		this.position = position;
-	}
+    public int getPosition() {
+        return position;
+    }
 
-	public int getPosition() {
-		return position;
-	}
 }

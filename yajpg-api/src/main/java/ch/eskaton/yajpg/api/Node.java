@@ -1,5 +1,5 @@
 /*
-w *  Copyright (c) 2009, Adrian Moser
+ *  Copyright (c) 2009, Adrian Moser
  *  All rights reserved.
  * 
  *  Redistribution and use in source and binary forms, with or without
@@ -24,7 +24,6 @@ w *  Copyright (c) 2009, Adrian Moser
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg.api;
 
 /**
@@ -32,114 +31,137 @@ package ch.eskaton.yajpg.api;
  */
 public abstract class Node {
 
-	/**
-	 * Type of the node. Concrete types must be defined in subclasses.
-	 */
-	protected int nodeType;
+    /**
+     * Type of the node. Concrete types must be defined in subclasses.
+     */
+    protected int nodeType;
 
-	protected Node lNode;
+    /**
+     * Left child.
+     */
+    protected Node lNode;
 
-	protected Node rNode;
+    /**
+     * Right child
+     */
+    protected Node rNode;
 
-	/**
-	 * Returns the node type.
-	 * 
-	 * @return The node type
-	 */
-	public int getNodeType() {
-		return nodeType;
-	}
+    /**
+     * Returns the node type.
+     * 
+     * @return The node type
+     */
+    public int getNodeType() {
+        return nodeType;
+    }
 
-	/**
-	 * Returns the left node.
-	 * 
-	 * @return The left node.
-	 */
-	public Node getLNode() {
-		return lNode;
-	}
+    /**
+     * Returns the left node.
+     * 
+     * @return The left node.
+     */
+    public Node getLNode() {
+        return lNode;
+    }
 
-	/**
-	 * Returns the right node.
-	 * 
-	 * @return The right node.
-	 */
-	public Node getRNode() {
-		return rNode;
-	}
+    /**
+     * Returns the right node.
+     * 
+     * @return The right node.
+     */
+    public Node getRNode() {
+        return rNode;
+    }
 
-	/**
-	 * Traverses a syntax tree and calls a {@link NodeVisitor} on every node.
-	 * 
-	 * @param v
-	 *            A visitor
-	 * @throws Exception
-	 */
-	public void traverse(NodeVisitor v) {
-		if (getLNode() != null)
-			getLNode().traverse(v);
-		v.visit(this);
-		if (getRNode() != null)
-			getRNode().traverse(v);
-	}
+    /**
+     * Traverses a syntax tree and calls a {@link NodeVisitor} on every node.
+     * 
+     * @param v
+     *            A visitor
+     * @throws Exception
+     */
+    public void traverse(NodeVisitor v) {
+        if (getLNode() != null)
+            getLNode().traverse(v);
+        v.visit(this);
+        if (getRNode() != null)
+            getRNode().traverse(v);
+    }
 
-	/**
-	 * Traverses a syntax tree in post-order and calls a {@link NodeVisitor} on
-	 * every node.
-	 * 
-	 * @param v
-	 *            A visitor
-	 * @throws Exception
-	 */
-	public void traversePostOrder(NodeVisitor v) {
-		if (getLNode() != null)
-			getLNode().traversePostOrder(v);
-		if (getRNode() != null)
-			getRNode().traversePostOrder(v);
-		v.visit(this);
-	}
+    /**
+     * Traverses a syntax tree and calls a {@link NodeVisitor}
+     * which may throw an exception on every node.
+     * 
+     * @param v
+     *            A visitor
+     * @throws Exception
+     */
+    public void traverseWithEx(ExceptionNodeVisitor v) throws Exception {
+        if (getLNode() != null)
+            getLNode().traverseWithEx(v);
+        v.visitWithException(this);
+        if (getRNode() != null)
+            getRNode().traverseWithEx(v);
+    }
 
-	/**
-	 * Traverses a syntax tree in post-order and calls a {@link NodeVisitor}
-	 * which may throw an exception on every node.
-	 * 
-	 * @param v
-	 *            A visitor
-	 * @throws Exception
-	 */
-	public void traversePostOrderWithEx(NodeVisitor v) throws Exception {
-		if (getLNode() != null)
-			getLNode().traversePostOrderWithEx(v);
-		if (getRNode() != null)
-			getRNode().traversePostOrderWithEx(v);
-		v.visitWithException(this);
-	}
+    /**
+     * Traverses a syntax tree in post-order and calls a {@link NodeVisitor} on
+     * every node.
+     * 
+     * @param v
+     *            A visitor
+     * @throws Exception
+     */
+    public void traversePostOrder(NodeVisitor v) {
+        if (getLNode() != null)
+            getLNode().traversePostOrder(v);
+        if (getRNode() != null)
+            getRNode().traversePostOrder(v);
+        v.visit(this);
+    }
 
-	/**
-	 * Prints the syntax tree to stdout.
-	 * 
-	 * @param level
-	 *            The level of the node for indentation
-	 */
-	public final void print(int level) {
-		for (int i = 0; i < level; i++) {
-			System.out.print(" ");
-		}
+    /**
+     * Traverses a syntax tree in post-order and calls a {@link NodeVisitor}
+     * which may throw an exception on every node.
+     * 
+     * @param v
+     *            A visitor
+     * @throws Exception
+     */
+    public void traversePostOrderWithEx(ExceptionNodeVisitor v)
+            throws Exception {
+        if (getLNode() != null)
+            getLNode().traversePostOrderWithEx(v);
+        if (getRNode() != null)
+            getRNode().traversePostOrderWithEx(v);
+        v.visitWithException(this);
+    }
 
-		doPrint();
-		level++;
+    /**
+     * Prints the syntax tree to stdout.
+     * 
+     * @param level
+     *            The level of the node for indentation
+     */
+    public final void print(int level) {
+        for (int i = 0; i < level; i++) {
+            System.out.print(" ");
+        }
 
-		if (lNode != null) {
-			lNode.print(level);
-		}
-		if (rNode != null) {
-			rNode.print(level);
-		}
-	}
+        doPrint();
+        level++;
 
-	/**
-	 * Does the actual printing of a node.
-	 */
-	public abstract void doPrint();
+        if (lNode != null) {
+            lNode.print(level);
+        }
+        if (rNode != null) {
+            rNode.print(level);
+        }
+    }
+
+    /**
+     * Does the actual printing of a node.
+     */
+    public abstract void doPrint();
 
 }

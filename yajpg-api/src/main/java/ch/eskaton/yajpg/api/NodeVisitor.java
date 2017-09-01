@@ -24,7 +24,6 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg.api;
 
 /**
@@ -32,8 +31,6 @@ package ch.eskaton.yajpg.api;
  */
 public interface NodeVisitor {
 
-	public void visit(Node node);
-
-	public void visitWithException(Node node) throws Exception;
+    public void visit(Node node);
 
 }

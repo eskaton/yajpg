@@ -24,44 +24,85 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package ch.eskaton.yajpg.api;
+package ch.eskaton.yajpg;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * State of parser to be stored on internal stack.
+ * A set of items combines all rules that expect the same next symbol and 
+ * therefore lead to the same state.
  */
-public class ParserState {
+public class ItemSet {
 
-    /**
-     * Current state.
-     */
-    protected int state;
+    private Set<Item> set;
 
-    /**
-     * Node or token generated in this state.
-     */
-    protected Object symbol;
-
-    /**
-     * Name of terminal or non-terminal which lead to this state.
-     */
-    protected String type;
-
-    public ParserState(int state, Object symbol, String type) {
-        this.state = state;
-        this.symbol = symbol;
-        this.type = type;
+    public ItemSet(Set<Item> set) {
+        this.set = set;
     }
 
-    public int getState() {
-        return state;
+    public Set<Item> getSet() {
+        return set;
     }
 
-    public Object getSymbol() {
-        return symbol;
+    /**
+     * Returns the next expected symbol.
+     * 
+     * @return The expected symbol
+     */
+    public Symbol getCurrentSymbol() {
+        return set.iterator().next().getCurrentSymbol();
     }
 
-    public String getType() {
-        return type;
+    /**
+     * Returns whether there more rules which contain symbols.
+     * 
+     * @return True if there are more rules
+     */
+    public boolean hasMoreSymbols() {
+        return set.iterator().next().hasMoreSymbols();
+    }
+
+    /**
+     * Sets the action.
+     * 
+     * @param action
+     *            An action
+     */
+    public void setAction(Action action) {
+        for (Item item : set) {
+            item.setAction(action);
+        }
+    }
+
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        } else if (!(o instanceof ItemSet)) {
+            return false;
+        }
+
+        Set<Item> otherSet = new HashSet<Item>((Set<Item>) ((ItemSet) o).set);
+
+        for (Item item : set) {
+            if (!otherSet.contains(item)) {
+                return false;
+            } else {
+                otherSet.remove(item);
+            }
+        }
+
+        return otherSet.size() == 0;
+    }
+
+    public int hashCode() {
+        int hash = 0;
+
+        for (Item item : set) {
+            hash += 37 * item.hashCode();
+        }
+
+        return hash;
     }
 
 }

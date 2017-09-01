@@ -1,0 +1,42 @@
+settings {
+   parser-class:     CalcParser;
+   parser-package:   ch.eskaton.yajpg.example.parser;
+   token-enum:       ch.eskaton.yajpg.example.parser.CalcToken;
+}
+
+token {
+   NUMBER, PLUS, MINUS, TIMES, DIV
+}
+
+rules {
+   expr[CalcNode]:
+         aterm EOF {
+            $$ = $1;
+         };
+
+   aterm[CalcNode]: 
+         aterm PLUS aterm {
+               $$ = new CalcNode($1, CalcToken.PLUS, $3);
+            }
+         |  aterm MINUS aterm {
+               $$ = new CalcNode($1, CalcToken.MINUS, $3);
+            }
+         |  mterm {
+               $$ = $1;
+            };
+
+   mterm[CalcNode]:  
+         mterm TIMES mterm {
+               $$ = new CalcNode($1, CalcToken.TIMES, $3);
+            }
+         |  mterm DIV mterm {
+               $$ = new CalcNode($1, CalcToken.DIV, $3);
+            }
+         |  NUMBER {
+               $$ = new CalcValue($1);
+            };
+}
+
+accept {
+   expr   
+}

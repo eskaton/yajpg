@@ -9,5 +9,6 @@
 		<module>yajpg-generator</module>
 		<module>yajpg-maven-plugin</module>
 		<module>yajpg-api</module>
+      <module>yajpg-example</module>
 	</modules>
 </project>

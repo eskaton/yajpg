@@ -24,15 +24,13 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg.api;
 
+@SuppressWarnings("serial")
 public class LexerInstantiationException extends Exception {
 
-	private static final long serialVersionUID = 1L;
-
-	public LexerInstantiationException(Exception ex) {
-		super(ex);
-	}
+    public LexerInstantiationException(Exception ex) {
+        super(ex);
+    }
 
 }

@@ -24,7 +24,6 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg.api;
 
 import java.io.IOException;
@@ -34,6 +33,6 @@ import java.io.IOException;
  */
 public interface Parser {
 
-	public Node parse() throws ParseException, IOException;
+    public Node parse() throws ParseException, IOException;
 
 }

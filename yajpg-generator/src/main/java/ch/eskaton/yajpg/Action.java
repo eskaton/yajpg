@@ -24,8 +24,9 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg;
+
+import ch.eskaton.commons.utils.StringUtils;
 
 /**
  * Actions that are executed if an event is fired.
@@ -37,44 +38,78 @@ package ch.eskaton.yajpg;
  */
 public class Action {
 
-	public static enum ActionType {
-		Error, Shift, Reduce, Goto, Accept
-	};
+    public static enum ActionType {
+        Error, Shift, Reduce, Goto, Accept
+    };
 
-	/**
-	 * Kind of action, i.e. Error, Shift, etc.
-	 */
-	private ActionType type;
+    /**
+     * Kind of action, i.e. Error, Shift, etc.
+     */
+    private ActionType type;
 
-	/**
-	 * State or rule number
-	 */
-	private int index;
+    /**
+     * State or rule number
+     */
+    private int index;
 
-	public ActionType getType() {
-		return type;
-	}
+    public ActionType getType() {
+        return type;
+    }
 
-	public void setType(ActionType type) {
-		this.type = type;
-	}
+    public void setType(ActionType type) {
+        this.type = type;
+    }
 
-	public int getIndex() {
-		return index;
-	}
+    public int getIndex() {
+        return index;
+    }
 
-	public void setIndex(int index) {
-		this.index = index;
-	}
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
-	public Action(ActionType type, int index) {
-		super();
-		this.index = index;
-		this.type = type;
-	}
+    public Action(ActionType type, int index) {
+        this.index = index;
+        this.type = type;
+    }
 
-	public String toString() {
-		return type + " " + index;
-	}
+    public int encode() {
+        return (getIndex() << 3) + getType().ordinal();
+    }
+
+    public String toString() {
+        return StringUtils.concat(type.toString(), " ",
+                (getType() == Action.ActionType.Error ? "" : String
+                        .valueOf(index)));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + index;
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Action other = (Action) obj;
+        if (index != other.index)
+            return false;
+        if (type == null) {
+            if (other.type != null)
+                return false;
+        } else if (!type.equals(other.type))
+            return false;
+        return true;
+    }
 
 }

@@ -1,0 +1,133 @@
+/* THIS FILE IS MACHINE GENERATED - DO NOT EDIT! */
+package $PACKAGE$;
+
+import ch.eskaton.yajpg.api.*;
+$IMPORTS$;
+
+public class $CLASS$ implements Lexer {
+
+    $TERMINALS$
+
+    $STATE_TABLE$
+    
+    $TOKEN_LIST$
+    
+    private int currentPosition;
+
+    private String input;
+
+    private Token currentToken;
+    
+    private StringBuffer token;
+    
+    private int currentState;
+
+    $INITIAL_STATE$
+    
+    public $CLASS$(String input) {
+        this.input = input;
+        currentPosition = 0;
+    }
+
+    public Token nextToken() throws ParseException {
+        Token lastToken = null;
+        int startPosition = currentPosition;
+        int lastPosition = startPosition;
+
+        reset();
+
+        while (currentPosition <= input.length()) {
+            if (currentToken != null) {
+                return currentToken;
+            }
+
+            if (currentPosition == input.length()) {
+                currentPosition++;
+                return new Token(Terminals.EOF.ordinal(), "", startPosition);
+            }
+
+            char c = input.charAt(currentPosition++);
+            Terminals terminal = null;
+
+            processEvent(c);
+
+            if (rejects()) {
+                if (lastToken == null) {
+                    throw new ParseException("Parse error", currentPosition);
+                }
+                handleToken(lastToken);
+                currentPosition = lastPosition;
+            } else {
+                token.append(c);
+                if (accepts()) {
+                    terminal = getAcceptObject();
+                    if( terminal != null ) {
+                        lastToken = new Token(terminal.ordinal(), token
+                                .toString(), startPosition);
+                        lastPosition = currentPosition;
+                        if(currentPosition == input.length()) {
+                            handleToken(lastToken);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        return null;
+    }
+
+    private void handleToken(Token token) {
+        $TOKEN_HANDLER$
+    }
+
+    public void reset() {
+        token = new StringBuffer();
+        currentState = initialState;
+        currentToken = null;
+    }
+    
+    private void skip() {
+        reset();
+    }
+    
+    private void processEvent(char c) throws ParseException {
+        int event = getEvent(c);
+
+        if (currentState == -1) {
+            /* in reject state */
+            return;
+        }
+
+        currentState = stateTable[currentState][event];
+    }
+    
+    private int getEvent(int c) throws ParseException {
+        $EVENT_MAPPING$
+    }
+    
+    private boolean rejects() {
+        return currentState == -1;
+    }
+
+    private boolean accepts() {
+        if (currentState == -1) {
+            return false;
+        }
+
+        if (tokenList[currentState] != null) {
+            return true;
+        }
+
+        return false;
+    }
+    
+    private Terminals getAcceptObject() {
+        if (currentState == -1) {
+            return null;
+        }
+
+        return tokenList[currentState];
+    }
+
+}

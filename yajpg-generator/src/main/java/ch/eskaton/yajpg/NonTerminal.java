@@ -24,7 +24,6 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg;
 
 /**
@@ -32,42 +31,42 @@ package ch.eskaton.yajpg;
  */
 public class NonTerminal implements Symbol {
 
-	private static int nonTerminalCount = 0;
+    private static int nonTerminalCount = 0;
 
-	private int nonTerminalNumber;
+    private int nonTerminalNumber;
 
-	private String name;
+    private String name;
 
-	private String clazz;
+    private String clazz;
 
-	public static void initialize() {
-		nonTerminalCount = 0;
-	}
+    public static void initialize() {
+        nonTerminalCount = 0;
+    }
 
-	public NonTerminal(String name, String className) {
-		super();
-		this.name = name;
-		this.clazz = className;
-		this.nonTerminalNumber = nonTerminalCount++;
-	}
+    public NonTerminal(String name, String className) {
+        this.name = name;
+        this.clazz = className;
+        this.nonTerminalNumber = nonTerminalCount++;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getClassName() {
-		return clazz;
-	}
+    public String getClassName() {
+        return clazz;
+    }
 
-	public void setClassName(String className) {
-		this.clazz = className;
-	}
+    public void setClassName(String className) {
+        this.clazz = className;
+    }
 
-	public int getNonTerminalNumber() {
-		return nonTerminalNumber;
-	}
+    public int getNonTerminalNumber() {
+        return nonTerminalNumber;
+    }
 
-	public String toString() {
-		return name;
-	}
+    public String toString() {
+        return name;
+    }
+
 }

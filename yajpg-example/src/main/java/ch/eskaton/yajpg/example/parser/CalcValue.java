@@ -24,44 +24,22 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package ch.eskaton.yajpg.api;
+package ch.eskaton.yajpg.example.parser;
 
-/**
- * State of parser to be stored on internal stack.
- */
-public class ParserState {
+import ch.eskaton.yajpg.api.Token;
 
-    /**
-     * Current state.
-     */
-    protected int state;
+public class CalcValue extends CalcNode {
 
-    /**
-     * Node or token generated in this state.
-     */
-    protected Object symbol;
+   private double value;
 
-    /**
-     * Name of terminal or non-terminal which lead to this state.
-     */
-    protected String type;
+	public CalcValue(Token token) {
+		super(null, CalcToken.NUMBER, null);
+      
+      value = Double.parseDouble(token.getBuffer());
+	}
 
-    public ParserState(int state, Object symbol, String type) {
-        this.state = state;
-        this.symbol = symbol;
-        this.type = type;
-    }
-
-    public int getState() {
-        return state;
-    }
-
-    public Object getSymbol() {
-        return symbol;
-    }
-
-    public String getType() {
-        return type;
-    }
+   public double getValue() {
+      return value; 
+   }
 
 }

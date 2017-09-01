@@ -24,7 +24,6 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg.api;
 
 import java.lang.reflect.Constructor;
@@ -34,17 +33,17 @@ import java.lang.reflect.Constructor;
  */
 public class LexerFactory {
 
-	public static Lexer create(String clazz, String code)
-			throws LexerInstantiationException {
-		try {
-			Class<?> parser = Thread.currentThread().getContextClassLoader()
-					.loadClass(clazz);
-			Constructor<?> constructor = parser
-					.getDeclaredConstructor(String.class);
-			return (Lexer) constructor.newInstance(code);
-		} catch (Exception ex) {
-			throw new LexerInstantiationException(ex);
-		}
-	}
+    public static Lexer create(String clazz, String code)
+            throws LexerInstantiationException {
+        try {
+            Class<?> parser = Thread.currentThread().getContextClassLoader()
+                    .loadClass(clazz);
+            Constructor<?> constructor = parser
+                    .getDeclaredConstructor(String.class);
+            return (Lexer) constructor.newInstance(code);
+        } catch (Exception ex) {
+            throw new LexerInstantiationException(ex);
+        }
+    }
 
 }

@@ -24,7 +24,6 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg;
 
 /**
@@ -32,46 +31,45 @@ package ch.eskaton.yajpg;
  */
 public class Terminal implements Symbol {
 
-	private static int terminalCount = 0;
+    private static int terminalCount = 0;
 
-	private int terminalNumber;
+    private int terminalNumber;
 
-	private String name;
+    private String name;
 
-	private String regex;
+    private String regex;
 
-	private String code;
+    private String code;
 
-	public static void initialize() {
-		terminalCount = 0;
-	}
+    public static void initialize() {
+        terminalCount = 0;
+    }
 
-	public Terminal(String name, String regex, String code) {
-		super();
-		this.name = name;
-		this.regex = regex;
-		this.code = code;
-		this.terminalNumber = terminalCount++;
-	}
+    public Terminal(String name, String regex, String code) {
+        this.name = name;
+        this.regex = regex;
+        this.code = code;
+        this.terminalNumber = terminalCount++;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public int getTerminalNumber() {
-		return terminalNumber;
-	}
+    public int getTerminalNumber() {
+        return terminalNumber;
+    }
 
-	public String getRegex() {
-		return regex;
-	}
+    public String getRegex() {
+        return regex;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public String toString() {
-		return name;
-	}
+    public String toString() {
+        return name;
+    }
 
 }

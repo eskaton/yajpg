@@ -24,7 +24,6 @@
  *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package ch.eskaton.yajpg.api;
 
 import java.io.IOException;
@@ -35,13 +34,13 @@ import java.io.IOException;
  */
 public interface Lexer {
 
-	/**
-	 * Reads the next token.
-	 * 
-	 * @return A token
-	 * @throws ParseException
-	 * @throws IOException
-	 */
-	public Token nextToken() throws ParseException, IOException;
+    /**
+     * Reads the next token.
+     * 
+     * @return A token
+     * @throws ParseException
+     * @throws IOException
+     */
+    public Token nextToken() throws ParseException, IOException;
 
 }
