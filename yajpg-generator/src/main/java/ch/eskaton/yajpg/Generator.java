@@ -47,7 +47,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
 
-import ch.eskaton.commons.StringUtils;
+import ch.eskaton.commons.utils.StringUtils;
 
 public class Generator {
 
