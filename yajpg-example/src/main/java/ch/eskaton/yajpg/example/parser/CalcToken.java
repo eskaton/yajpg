@@ -27,5 +27,5 @@
 package ch.eskaton.yajpg.example.parser;
 
 public enum CalcToken {
-	NUMBER, PLUS, MINUS, TIMES, DIV, EOF
+	NUMBER, PLUS, MINUS, TIMES, DIV
 }

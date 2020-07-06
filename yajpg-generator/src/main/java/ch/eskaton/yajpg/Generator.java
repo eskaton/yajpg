@@ -192,8 +192,7 @@ public class Generator {
         generateParser(parserFile.toString());
     }
 
-    private void generateLexer(String outFile) throws IOException,
-            ConfigException {
+    private void generateLexer(String outFile) throws IOException {
         InputStreamReader isr = new InputStreamReader(getClass()
                 .getClassLoader().getResourceAsStream("lexer.tmpl"));
         BufferedReader br = new BufferedReader(isr);

@@ -1,36 +1,40 @@
 settings {
    parser-class:     CalcParser;
+   lexer-class:      CalcLexer;
    parser-package:   ch.eskaton.yajpg.example.parser;
-   token-enum:       ch.eskaton.yajpg.example.parser.CalcToken;
 }
 
 token {
-   NUMBER, PLUS, MINUS, TIMES, DIV
+   NUMBER: "([0-9]+)|([0-9]+.)|([0-9]*.[0-9]+)",
+   PLUS: "[+]",
+   MINUS: "-",
+   TIMES: "[*]",
+   DIV: "/"
+}
+
+precedence {
+   leftassoc: MINUS, PLUS;
+   leftassoc: TIMES, DIV;
 }
 
 rules {
    expr[CalcNode]:
-         aterm EOF {
+         term EOF {
             $$ = $1;
          };
 
-   aterm[CalcNode]: 
-         aterm PLUS aterm {
-               $$ = new CalcNode($1, CalcToken.PLUS, $3);
-            }
-         |  aterm MINUS aterm {
-               $$ = new CalcNode($1, CalcToken.MINUS, $3);
-            }
-         |  mterm {
-               $$ = $1;
-            };
-
-   mterm[CalcNode]:  
-         mterm TIMES mterm {
+   term[CalcNode]:
+         term TIMES term {
                $$ = new CalcNode($1, CalcToken.TIMES, $3);
             }
-         |  mterm DIV mterm {
+         | term DIV term {
                $$ = new CalcNode($1, CalcToken.DIV, $3);
+            }
+         | term PLUS term {
+               $$ = new CalcNode($1, CalcToken.PLUS, $3);
+            }
+         | term MINUS term {
+               $$ = new CalcNode($1, CalcToken.MINUS, $3);
             }
          |  NUMBER {
                $$ = new CalcValue($1);

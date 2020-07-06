@@ -33,7 +33,6 @@ import ch.eskaton.yajpg.api.ParseException;
 import ch.eskaton.yajpg.example.parser.CalcLexer;
 import ch.eskaton.yajpg.example.parser.CalcNode;
 import ch.eskaton.yajpg.example.parser.CalcParser;
-import ch.eskaton.yajpg.example.parser.CalcToken;
 import ch.eskaton.yajpg.example.parser.CalcValue;
 
 public class CalcMain {
